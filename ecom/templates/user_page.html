@@ -1,0 +1,108 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content=display: inline position: relative;"IE=edge">
+    <meta name="viewport" content=display: inline position: relative;"width=device-width, initial-scale=1.0">
+    <title>BuyNew</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+
+        .navbar{
+            width: 100%;height: 55px;background-color: skyblue;
+            border-radius: 3px; border: solid 1px skyblue; margin-bottom: 0px;
+            
+        }
+        .container{display: grid; grid-template-columns: 10% 90%;margin: 0; background-color: khaki;}
+        .navig{
+            border-right: solid 2px black;text-align: center;margin-left: inherit; 
+            background-color:skyblue;
+        }
+
+        a{
+            color: black;text-decoration: none;
+        }
+        .select{
+            border-radius: 15px; width: 80%;
+        }
+    </style>
+</head>
+<body> 
+  <div class="navbar">
+    <a href="{% url 'home' %}" style="font-size: x-large; font-style: oblique;
+    display: inline; position: relative;
+     font-weight: bold; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">BUYNEW
+    </a>
+    {% if request.user.is_authenticated %}
+
+    {% else %}
+    <a href="{% url 'create-user' %}"><h3 style="display: inline; margin-left: 35px;margin-right: 35px;font-size: inherit;
+        position: absolute; right: 10%; top:15px">Sign in</h3></a>
+    {% endif %}
+
+    <a href="{% url 'view_cart' %}"><h3 style="display: inline; margin-left: 35px;margin-right: 35px;font-size: inherit;"> Go to cart </h3></a>
+  </div>
+  
+  <div style="margin: 0; background-color: khaki;padding-top: 10px;">
+    <div class="container">
+        <div class="navig">
+            {% if request.user.is_authenticated %}
+            <a href="/user_page/{{request.user}}"><small>@{{request.user}}</small></a>
+            <a href="{% url 'logout' %}"><h4 style="font-size: inherit; margin-top: 5px;">Log out</h4> </a>
+            {% else %}
+            <a href="{% url 'login' %}"><h4 style="font-size: inherit; margin-top: 5px;">Log in</h4> </a>
+            {% endif %}
+            <a href="{% url 'home' %}"><h4 style="position: relative;top:40px;text-align: center; font-size: inherit; margin-top: -30;">Homepage</h4> </a>
+            <br>
+
+            <hr>
+            <a href="{% url 'home' %}"><h4 style="font-size: inherit;">Tous</h4></a>
+              
+              {% for categorie in categories %}
+                <h4 style="font-size: inherit; font-family: inherit;"><a href="{% url 'home' %}?q={{categorie.cat_name}}">{{categorie.cat_name}}</a></h4>
+                {% endfor %}
+              
+                
+              
+        </div>
+        
+        <div>
+            <div class="row">
+              {% for item in user_items %}
+                <div class="col" style="margin:inherit; margin-left: 10px;">
+                <div class="card" style="width: 20rem;padding-right: 10px;">
+                    <a href="/user_page/{{item.user}}"><small>@{{item.user}}</small></a>
+                    
+          <a href="/go-to-item/{{item.name}}"><img class="card-img-top" src="{{ item.image_url }}" alt="Card image cap"></a>
+          <div class="card-body">
+              <div>
+                <h5 class="card-title" style="border: grey solid 1px;border-radius: 5px;background-color: grey;
+                font-size: inherit; width: fit-content;display: inline; position: relative;text-align: center;">{{ item.name }}</h5>
+                <p class="card-text" style="border: grey solid 1px;border-radius: 5px;background-color: grey; width: fit-content;display: inline; position: relative;">{{ item.price }} fbu</p>
+              </div>
+            <a href="{% url 'add-to-cart' item.name %}" class="btn btn-primary" style="background-color: inherit;border: inherit;"><h3 style="border: grey solid 1px;border-radius: 5px; background-color: grey; 
+            color:black;width: fit-content;font-size:inherit; display: inherit;">
+                Add to cart</h3></a>
+        
+          </div>
+        </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+  </div>
+         
+    <hr style="margin: 0;">
+
+    <div style="background-color: lavender;margin-bottom: 0px;">
+        <a href="{% url 'about' %}" style="display: block;margin-left: 10px;">About</a>
+        <a href="{% url 'help' %}" style="display: block;margin-left: 10px;">Help</a>
+        <a href="{% url 'more' %}" style="display: block;margin-left: 10px;">More</a>
+    </div>
+
+    <div style="position: relative;bottom: 72px;left: 93%;">
+        <a href="{% url 'contacts' %}">Contact us</a> 
+    </div>
+</body>
+
+</html>

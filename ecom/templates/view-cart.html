@@ -1,0 +1,61 @@
+{% include 'navbar.html' %}
+
+<div style="margin: 0; background-color: khaki;padding-top: 10px;">
+    <div class="container">
+        <div class="navig">
+            {% if request.user.is_authenticated %}
+            @{{request.user}}<a href="{% url 'logout' %}"><h4 style="font-size: inherit; margin-top: 5px;">Log out</h4> </a>
+            {% else %}
+            <a href="{% url 'login' %}"><h4 style="font-size: inherit; margin-top: 5px;">Log in</h4> </a>
+            {% endif %}
+            <a href="{% url 'home' %}"><h4 style="position: relative;top:40px;text-align: center; font-size: inherit; margin-top: -30;">Homepage</h4> </a>
+            <br>
+
+            <hr>
+            <a href="{% url 'home' %}"><h4 style="font-size: inherit;">Tous</h4></a>
+              
+              {% for categorie in categories %}
+                <h4 style="font-size: inherit; font-family: inherit;"><a href="{% url 'home' %}?q={{categorie.cat_name}}">{{categorie.cat_name}}</a></h4>
+                {% endfor %}
+              
+                
+              
+        </div>
+
+        <div>
+            <div style="position: relative; left: 5%;">
+                {% if total_price == 0 %}
+                <p>Your cart is empty. <br> Would you like to add some items?</p>
+                {% else %}
+                {% for item in items %}
+                <div>
+                    <h4 style="display: inline;">{{item.item.name}}   </h4><h5 style="display: inline;"> x {{item.quantity}}     </h5>
+                    <a href="{% url 'minus_item' item.id %}" class="btn btn-primary" style="background-color: inherit;border: inherit;"><h3 style="border: grey solid 1px;border-radius: 5px; background-color: grey; 
+                        color:black;width: fit-content;font-size:inherit; display: inherit;">
+                            -</h3></a>
+                    </div>
+                
+                {% endfor %} <br>  
+                <h2> Total = {{total_price}}</h2>
+<a href="{% url 'empty_cart' %}" style="text-decoration: none;"><h4 style="color: red; font-size: inherit;">Empty your cart</h4></a> 
+
+            {% endif %}
+            </div> 
+
+        </div>
+    </div>
+</div>
+
+<hr style="margin: 0;">
+
+    <div style="background-color: lavender;margin-bottom: 0px;">
+        <a href="{% url 'about' %}" style="display: block;margin-left: 10px;">About</a>
+        <a href="{% url 'help' %}" style="display: block;margin-left: 10px;">Help</a>
+        <a href="{% url 'more' %}" style="display: block;margin-left: 10px;">More</a>
+    </div>
+
+    <div style="position: relative;bottom: 72px;left: 93%;">
+        <a href="{% url 'contacts' %}">Contact us</a> 
+    </div>
+
+
